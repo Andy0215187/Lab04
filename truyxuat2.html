@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đồ thị Con Đường Truy Xuất Tour</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.5; }
+    h1, h2, h3 { color: #2E6AA3; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1em; }
+    th, td { border: 1px solid #999; padding: 6px; text-align: left; }
+    th { background: #E1EFC1; }
+    pre { background: #f4f4f4; padding: 10px; border: 1px solid #ccc; overflow-x: auto; }
+    code { font-family: Consolas, monospace; }
+  </style>
+</head>
+<body>
+
+  <h1>Đồ Thị Con Đường Truy Xuất Tour</h1>
+
+  <h2>1. Định nghĩa chung (9-tuple)</h2>
+  <p>Một đồ thị con đường truy xuất là bộ <strong>G = (N, C, R, C<sub>đ</sub>, f, g, h, i, j)</strong> với:</p>
+  <ol>
+    <li><strong>N</strong>: tập nút, mỗi nút <em>n<sub>i</sub></em> tương ứng một quan hệ (bảng).</li>
+    <li><strong>C</strong> ⊆ N×N: tập cung có hướng (FK-edges).</li>
+    <li><strong>R</strong>: tập quan hệ (tên các bảng) trong CSDL.</li>
+    <li><strong>f: N → R</strong>: ánh xạ đơn ánh, gán mỗi nút đến một bảng.</li>
+    <li><strong>g: C → R</strong>: ánh xạ mỗi cung đến bảng chứa FK.</li>
+    <li>Điều kiện: <code>f(N) ∪ g(C) = R</code>.</li>
+    <li><strong>C<sub>đ</sub></strong>: tập con đường truy xuất (thường C<sub>đ</sub>=C).</li>
+    <li><strong>h: C → C<sub>đ</sub></strong>: mô tả văn bản cho mỗi cung.</li>
+    <li><strong>i: C<sub>đ</sub> → ℕ³</strong>: gán cho mỗi con đường bộ (m, A, M).</li>
+    <li><strong>j: N → {0,1}</strong>: j(n)=1 nếu n là nút vào (entry node).</li>
+  </ol>
+
+  <h2>2. Tập quan hệ R</h2>
+  <table>
+    <tr><th>Tên bảng</th></tr>
+    <tr><td>TaiKhoan</td></tr>
+    <tr><td>KhachHang</td></tr>
+    <tr><td>NhanVien</td></tr>
+    <tr><td>HopDong_NhanVien</td></tr>
+    <tr><td>Tour</td></tr>
+    <tr><td>LichKhoiHanh</td></tr>
+    <tr><td>LoTrinh</td></tr>
+    <tr><td>KhuyenMai</td></tr>
+    <tr><td>HopDong</td></tr>
+    <tr><td>HuongDanVien</td></tr>
+    <tr><td>LichKhoiHanh_HuongDanVien</td></tr>
+    <tr><td>PhuongTien</td></tr>
+    <tr><td>LichKhoiHanh_PhuongTien</td></tr>
+    <tr><td>ThanhToan</td></tr>
+    <tr><td>YeuCauHoTro</td></tr>
+    <tr><td>DanhGia</td></tr>
+    <tr><td>DiaDiem</td></tr>
+    <tr><td>LoaiDiaDiem</td></tr>
+    <tr><td>KhachSan</td></tr>
+    <tr><td>LoTrinh_DiaDiem</td></tr>
+    <tr><td>LoTrinh_KhachSan</td></tr>
+  </table>
+
+  <h2>3. Tập nút N và ánh xạ f</h2>
+  <table>
+    <tr><th>n<sub>i</sub></th><th>Bảng (f(n<sub>i</sub>))</th></tr>
+    <tr><td>n₁</td><td>TaiKhoan</td></tr>
+    <tr><td>n₂</td><td>KhachHang</td></tr>
+    <tr><td>n₃</td><td>NhanVien</td></tr>
+    <tr><td>n₄</td><td>HopDong_NhanVien</td></tr>
+    <tr><td>n₅</td><td>Tour</td></tr>
+    <tr><td>n₆</td><td>LichKhoiHanh</td></tr>
+    <tr><td>n₇</td><td>LoTrinh</td></tr>
+    <tr><td>n₈</td><td>KhuyenMai</td></tr>
+    <tr><td>n₉</td><td>HopDong</td></tr>
+    <tr><td>n₁₀</td><td>HuongDanVien</td></tr>
+    <tr><td>n₁₁</td><td>LichKhoiHanh_HuongDanVien</td></tr>
+    <tr><td>n₁₂</td><td>PhuongTien</td></tr>
+    <tr><td>n₁₃</td><td>LichKhoiHanh_PhuongTien</td></tr>
+    <tr><td>n₁₄</td><td>ThanhToan</td></tr>
+    <tr><td>n₁₅</td><td>YeuCauHoTro</td></tr>
+    <tr><td>n₁₆</td><td>DanhGia</td></tr>
+    <tr><td>n₁₇</td><td>DiaDiem</td></tr>
+    <tr><td>n₁₈</td><td>LoaiDiaDiem</td></tr>
+    <tr><td>n₁₉</td><td>KhachSan</td></tr>
+    <tr><td>n₂₀</td><td>LoTrinh_DiaDiem</td></tr>
+    <tr><td>n₂₁</td><td>LoTrinh_KhachSan</td></tr>
+  </table>
+
+  <h2>4. Tập cung C và ánh xạ g</h2>
+  <table>
+    <tr><th>c<sub>i</sub></th><th>cung</th><th>FK</th><th>g(c<sub>i</sub>)</th></tr>
+    <tr><td>c₁</td><td>n₁→n₂</td><td>TaiKhoan.MaKH→KhachHang.MaKH</td><td>TaiKhoan</td></tr>
+    <tr><td>c₂</td><td>n₁→n₃</td><td>TaiKhoan.MaNV→NhanVien.MaNV</td><td>TaiKhoan</td></tr>
+    <tr><td>c₃</td><td>n₂→n₉</td><td>KhachHang.MaKH→HopDong.MaKH</td><td>HopDong</td></tr>
+    <tr><td>c₄</td><td>n₃→n₉</td><td>NhanVien.MaNV→HopDong.MaNV</td><td>HopDong</td></tr>
+    <tr><td>c₅</td><td>n₄→n₃</td><td>HopDong_NhanVien.MaNV→NhanVien.MaNV</td><td>HopDong_NhanVien</td></tr>
+    <tr><td>c₆</td><td>n₄→n₉</td><td>HopDong_NhanVien.MaHD→HopDong.MaHD</td><td>HopDong_NhanVien</td></tr>
+    <tr><td>c₇</td><td>n₉→n₈</td><td>HopDong.MaKM→KhuyenMai.MaKM</td><td>HopDong</td></tr>
+    <tr><td>c₈</td><td>n₉→n₆</td><td>HopDong.MaLich→LichKhoiHanh.MaLich</td><td>HopDong</td></tr>
+    <tr><td>c₉</td><td>n₉→n₁₄</td><td>HopDong.MaHD→ThanhToan.MaHD</td><td>HopDong</td></tr>
+    <tr><td>c₁₀</td><td>n₁₄→n₂</td><td>ThanhToan.MaKH→KhachHang.MaKH</td><td>ThanhToan</td></tr>
+    <tr><td>c₁₁</td><td>n₁₄→n₉</td><td>ThanhToan.MaHD→HopDong.MaHD</td><td>ThanhToan</td></tr>
+    <tr><td>c₁₂</td><td>n₂→n₁₅</td><td>KhachHang.MaKH→YeuCauHoTro.MaKH</td><td>YeuCauHoTro</td></tr>
+    <tr><td>c₁₃</td><td>n₃→n₁₅</td><td>NhanVien.MaNV→YeuCauHoTro.MaNV</td><td>YeuCauHoTro</td></tr>
+    <tr><td>c₁₄</td><td>n₂→n₁₆</td><td>KhachHang.MaKH→DanhGia.MaKH</td><td>DanhGia</td></tr>
+    <tr><td>c₁₅</td><td>n₆→n₁₆</td><td>LichKhoiHanh.MaLich→DanhGia.MaLich</td><td>DanhGia</td></tr>
+    <tr><td>c₁₆</td><td>n₆→n₅</td><td>LichKhoiHanh.MaTour→Tour.MaTour</td><td>LichKhoiHanh</td></tr>
+    <tr><td>c₁₇</td><td>n₆→n₇</td><td>LichKhoiHanh.MaLich→LoTrinh.MaLich</td><td>LichKhoiHanh</td></tr>
+    <tr><td>c₁₈</td><td>n₁₁→n₆</td><td>LichKhoiHanh_HuongDanVien.MaLich→LichKhoiHanh.MaLich</td><td>LichKhoiHanh_HuongDanVien</td></tr>
+    <tr><td>c₁₉</td><td>n₁₁→n₁₀</td><td>LichKhoiHanh_HuongDanVien.MaHDV→HuongDanVien.MaHDV</td><td>LichKhoiHanh_HuongDanVien</td></tr>
+    <tr><td>c₂₀</td><td>n₁₃→n₆</td><td>LichKhoiHanh_PhuongTien.MaLich→LichKhoiHanh.MaLich</td><td>LichKhoiHanh_PhuongTien</td></tr>
+    <tr><td>c₂₁</td><td>n₁₃→n₁₂</td><td>LichKhoiHanh_PhuongTien.MaPT→PhuongTien.MaPT</td><td>LichKhoiHanh_PhuongTien</td></tr>
+    <tr><td>c₂₂</td><td>n₇→n₉</td><td>HopDong.MaLich→LichKhoiHanh.MaLich (trùng c₈)</td><td>HopDong</td></tr>
+    <tr><td>c₂₃</td><td>n₇→n₂</td><td>HopDong.MaKH→KhachHang.MaKH (trùng c₃)</td><td>HopDong</td></tr>
+  </table>
+
+  <h2>5. Con đường C<sub>đ</sub> và ánh xạ h</h2>
+  <ul>
+    <li><strong>h(c₁)</strong>: “Từ TaiKhoan → KhachHang qua MaKH”.</li>
+    <li><strong>h(c₆)</strong>: “Từ HopDong_NhanVien → HopDong qua MaHD”.</li>
+    <li><strong>h(c₉)</strong>: “Từ HopDong → ThanhToan qua MaHD”.</li>
+    <li>…</li>
+    <li><strong>h(c₂₃)</strong>: “Từ HopDong → KhachHang qua MaKH”.</li>
+  </ul>
+
+  <h2>6. Ánh xạ i (cardinality)</h2>
+  <ul>
+    <li>i(h(c₁)) = (0,1,1)</li>
+    <li>i(h(c₃)) = (0,5,N)</li>
+    <li>i(h(c₆)) = (1,1,1)</li>
+    <li>i(h(c₁₅)) = (0,10,N)</li>
+    <li>…</li>
+  </ul>
+
+  <h2>7. Ánh xạ j (entry node)</h2>
+  <p>Chọn KhachHang (<strong>n₂</strong>) làm nút vào: <code>j(n₂)=1; j(n<sub>i≠2</sub>)=0</code></p>
+
+  <h2>8. DOT-Graph (Graphviz)</h2>
+  <pre><code>
+digraph RetrivalGraph {
+  rankdir=LR; node[shape=box,style=filled,fillcolor=lightgray];
+
+  n1  [label="n₁: TaiKhoan"];
+  n2  [label="n₂: KhachHang" fillcolor=lightblue];
+  n3  [label="n₃: NhanVien"];
+  n4  [label="n₄: HopDong_NhanVien"];
+  n5  [label="n₅: Tour"];
+  n6  [label="n₆: LichKhoiHanh"];
+  n7  [label="n₇: LoTrinh"];
+  n8  [label="n₈: KhuyenMai"];
+  n9  [label="n₉: HopDong"];
+  n10 [label="n₁₀: HuongDanVien"];
+  n11 [label="n₁₁: LichKhoiHanh_HuongDanVien"];
+  n12 [label="n₁₂: PhuongTien"];
+  n13 [label="n₁₃: LichKhoiHanh_PhuongTien"];
+  n14 [label="n₁₄: ThanhToan"];
+  n15 [label="n₁₅: YeuCauHoTro"];
+  n16 [label="n₁₆: DanhGia"];
+  n17 [label="n₁₇: DiaDiem"];
+  n18 [label="n₁₈: LoaiDiaDiem"];
+  n19 [label="n₁₉: KhachSan"];
+  n20 [label="n₂₀: LoTrinh_DiaDiem"];
+  n21 [label="n₂₁: LoTrinh_KhachSan"];
+
+  n1  -> n2  [label="MaKH"];
+  n1  -> n3  [label="MaNV"];
+  n2  -> n9  [label="MaKH"];
+  n3  -> n9  [label="MaNV"];
+  n9  -> n8  [label="MaKM"];
+  n9  -> n6  [label="MaLich"];
+  n9  -> n14 [label="MaHD"];
+  n14 -> n2  [label="MaKH"];
+  n14 -> n9  [label="MaHD"];
+  n2  -> n15 [label="MaKH"];
+  n3  -> n15 [label="MaNV"];
+  n2  -> n16 [label="MaKH"];
+  n6  -> n16 [label="MaLich"];
+  n6  -> n5  [label="MaTour"];
+  n6  -> n7  [label="MaLich"];
+  n11 -> n6  [label="MaLich"];
+  n11 -> n10 [label="MaHDV"];
+  n13 -> n6  [label="MaLich"];
+  n13 -> n12 [label="MaPT"];
+  n20 -> n17 [label="MaDD"];
+  n20 -> n7  [label="MaLT"];
+  n21 -> n19 [label="MaKS"];
+  n21 -> n7  [label="MaLT"];
+  n17 -> n18 [label="MaLDD"];
+  n4  -> n3  [label="MaNV"];
+  n4  -> n9  [label="MaHD"];
+}
+  </code></pre>
+
+</body>
+</html>

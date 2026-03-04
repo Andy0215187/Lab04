@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đề thi Xây dựng trang web</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #e6f7ff; /* Màu nền xanh biển nhạt */
+      color: #004d80; /* Màu chữ xanh đậm */
+    }
+
+    h2 {
+      margin-top: 40px;
+      color: #003d66; /* Màu tiêu đề xanh đậm */
+    }
+
+    table, th, td {
+      border: 1px solid #007acc; /* Màu viền xanh biển */
+      border-collapse: collapse;
+      padding: 5px 10px;
+      text-align: center;
+    }
+
+    table {
+      margin-bottom: 30px;
+      background-color: #f0f8ff; /* Màu nền bảng xanh nhạt */
+    }
+
+    /* Bài 2: menu ngang */
+    .menu-ngang {
+      display: flex;
+      background-color: #005b99; /* Màu nền menu ngang xanh biển đậm */
+    }
+
+    .menu-ngang a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+      display: block;
+      background-color: #007acc; /* Màu nền xanh biển */
+    }
+
+    .menu-ngang a:hover {
+      background-color: #004d80; /* Màu nền khi hover xanh đậm */
+    }
+
+    /* Bài 3: menu dọc */
+    .menu-doc {
+      display: flex;
+      flex-direction: column;
+      width: 150px;
+      background-color: #005b99; /* Màu nền menu dọc xanh biển đậm */
+    }
+
+    .menu-doc a {
+      color: white;
+      padding: 10px;
+      text-decoration: none;
+      background-color: #007acc; /* Màu nền xanh biển */
+    }
+
+    .menu-doc a:hover {
+      background-color: #004d80; /* Màu nền khi hover xanh đậm */
+    }
+
+    /* Bài 4: Form */
+    .form-container {
+      width: 400px;
+      border: 1px solid #007acc; /* Màu viền xanh biển */
+      padding: 15px;
+      background-color: #f0f8ff; /* Màu nền form xanh nhạt */
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="password"],
+    .form-container input[type="email"],
+    .form-container select {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 5px;
+      border: 1px solid #007acc; /* Màu viền input xanh biển */
+    }
+
+    .form-container label {
+      display: block;
+      margin-top: 10px;
+      color: #003d66; /* Màu chữ nhãn xanh đậm */
+    }
+
+    .form-container .row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .form-container .buttons {
+      margin-top: 15px;
+    }
+
+    .form-container button {
+      background-color: #007acc; /* Màu nền nút xanh biển */
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .form-container button:hover {
+      background-color: #004d80; /* Màu nền nút khi hover xanh đậm */
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Bài 1: Thiết kế bảng</h1>
+  <table>
+    <tr>
+      <th rowspan="2">STT</th>
+      <th rowspan="2">Họ tên</th>
+      <th colspan="2">Môn Cơ sở</th>
+      <th colspan="2">Môn chuyên ngành</th>
+      <th colspan="2">Môn chính trị</th>
+    </tr>
+    <tr>
+      <th>Học</th><th>Tài liệu</th>
+      <th>Học</th><th>Tài liệu</th>
+      <th>Học</th><th>Tài liệu</th>
+    </tr>
+    <tr><td>1</td><td>Hoàng Anh</td><td>X</td><td></td><td>X</td><td></td><td></td><td>X</td></tr>
+    <tr><td>2</td><td>Nguyễn Hà</td><td>X</td><td></td><td></td><td>X</td><td>X</td><td></td></tr>
+    <tr><td>3</td><td>Đỗ Kỳ</td><td>X</td><td>X</td><td></td><td></td><td>X</td><td></td></tr>
+    <tr><td>4</td><td>Lê Long</td><td>X</td><td></td><td></td><td>X</td><td></td><td>X</td></tr>
+    <tr><td>5</td><td>Phạm Quang</td><td></td><td>X</td><td>X</td><td></td><td></td><td>X</td></tr>
+    <tr><td colspan="2">Tổng cộng</td><td>5</td><td>2</td><td>3</td><td>1</td><td>0</td><td>5</td></tr>
+  </table>
+
+  <h2>Bài 2: Menu ngang</h2>
+  <div class="menu-ngang">
+    <a href="#">Trang chủ</a>
+    <a href="#">Giới thiệu</a>
+    <a href="#">Khóa học chuyên đề</a>
+    <a href="#">Dịch vụ</a>
+    <a href="#">Liên hệ</a>
+  </div>
+
+  <h2>Bài 3: Menu dọc</h2>
+  <div class="menu-doc">
+    <a href="#">Trang chủ</a>
+    <a href="#">Giới thiệu</a>
+    <a href="#">Khóa học chuyên đề</a>
+    <a href="#">Dịch vụ</a>
+    <a href="#">Liên hệ</a>
+  </div>
+
+  <h2>Bài 4: Form thông tin</h2>
+  <div class="form-container">
+    <label>Tên</label>
+    <input type="text">
+    
+    <label>Giới tính</label>
+    <div class="row">
+      <label><input type="radio" name="gioitinh"> Nam</label>
+      <label><input type="radio" name="gioitinh"> Nữ</label>
+    </div>
+
+    <label>Ngày sinh</label>
+    <input type="text">
+
+    <label>Tên đăng nhập</label>
+    <input type="text">
+
+    <label>Mật khẩu</label>
+    <input type="password">
+
+    <label>Xác nhận mật khẩu</label>
+    <input type="password">
+
+    <label>Địa chỉ</label>
+    <input type="text">
+
+    <label>Thành phố</label>
+    <select>
+      <option>--Mời chọn--</option>
+      <option>Hà Nội</option>
+      <option>TP. Hồ Chí Minh</option>
+      <option>Đà Nẵng</option>
+    </select>
+
+    <label>Điện thoại</label>
+    <input type="text">
+
+    <label>Email</label>
+    <input type="email">
+
+    <label>Sở thích</label>
+    <div class="row">
+      <label><input type="checkbox"> Bóng đá</label>
+      <label><input type="checkbox"> Xem phim</label>
+    </div>
+    <div class="row">
+      <label><input type="checkbox"> Nghệ nhạc</label>
+      <label><input type="checkbox"> Đọc sách</label>
+    </div>
+
+    <div class="buttons">
+      <button>Đăng ký</button>
+      <button>Làm lại</button>
+    </div>
+  </div>
+
+</body>
+</html>

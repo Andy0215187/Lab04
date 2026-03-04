@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đồ thị Con Đường Truy Xuất Tour</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.4; }
+    h1, h2 { color: #2F5597; }
+    table { border-collapse: collapse; margin-bottom: 20px; width: 100%; }
+    th, td { border: 1px solid #666; padding: 6px; text-align: left; }
+    th { background: #C4D79B; }
+    pre { background: #f4f4f4; padding: 10px; border: 1px solid #ccc; overflow-x: auto; }
+  </style>
+</head>
+<body>
+
+  <h1>Đồ thị Con Đường Truy Xuất Tour</h1>
+
+  <h2>1. Nhóm người dùng và phân quyền</h2>
+  <table>
+    <tr><th>n</th><th>Bảng</th><th>Thuộc tính</th></tr>
+    <tr><td>n₁</td><td>Tài khoản</td><td>TenDangNhap [PK], MatKhau, VaiTro, MaKH [FK], MaNV [FK]</td></tr>
+    <tr><td>n₂</td><td>Khách hàng</td><td>MaKH [PK], HoTen, Email</td></tr>
+    <tr><td>n₃</td><td>Nhân viên</td><td>MaNV [PK], HoTen, ChucVu</td></tr>
+  </table>
+
+  <h2>2. Nhóm nghiệp vụ tour</h2>
+  <table>
+    <tr><th>n</th><th>Bảng</th><th>Thuộc tính</th></tr>
+    <tr><td>n₄</td><td>Tour</td><td>MaTour [PK], TenTour, MoTa</td></tr>
+    <tr><td>n₅</td><td>Lịch khởi hành</td><td>MaLich [PK], MaTour [FK], NgayBatDau, NgayKetThuc, SoCho</td></tr>
+    <tr><td>n₆</td><td>Lộ trình</td><td>MaLT [PK], MaLich [FK], ThuTuLT, NgayThamQuan</td></tr>
+    <tr><td>n₇</td><td>Khuyến mãi</td><td>MaKM [PK], ThongTinKM, SoTienKM</td></tr>
+    <tr><td>n₈</td><td>Hợp đồng</td><td>MaHD [PK], MaKH [FK], MaNV [FK], MaKM [FK], MaLich [FK], NgayDat, TongTien</td></tr>
+  </table>
+
+  <h2>3. Nhóm dịch vụ hỗ trợ tour</h2>
+  <table>
+    <tr><th>n</th><th>Bảng</th><th>Thuộc tính</th></tr>
+    <tr><td>n₉</td><td>Hướng dẫn viên</td><td>MaHDV [PK], HoTen, SDT, Email, TrinhDo</td></tr>
+    <tr><td>n₁₀</td><td>LichKhoiHanh_HuongDanVien</td><td>MaLich [PK,FK], MaHDV [PK,FK]</td></tr>
+    <tr><td>n₁₁</td><td>Phương tiện</td><td>MaPT [PK], LoaiPT, BienSo</td></tr>
+    <tr><td>n₁₂</td><td>LichKhoiHanh_PhuongTien</td><td>MaPT [PK,FK], MaLich [PK,FK]</td></tr>
+    <tr><td>n₁₃</td><td>Thanh toán</td><td>MaTT [PK], MaKH [FK], MaHD [FK], SoTien, NgayTT, PhuongThuc</td></tr>
+    <tr><td>n₁₄</td><td>Yêu cầu hỗ trợ</td><td>MaHT [PK], MaKH [FK], MaNV [FK], NoiDung, NgayGui</td></tr>
+    <tr><td>n₁₅</td><td>Đánh giá</td><td>MaDG [PK], MaKH [FK], MaLich [FK], NoiDung, NgayDG</td></tr>
+  </table>
+
+  <h2>4. Nhóm địa điểm và lưu trú</h2>
+  <table>
+    <tr><th>n</th><th>Bảng</th><th>Thuộc tính</th></tr>
+    <tr><td>n₁₆</td><td>Địa điểm</td><td>MaDD [PK], TenDD, DiaChi, MoTa, MaLDD [FK]</td></tr>
+    <tr><td>n₁₇</td><td>Loại địa điểm</td><td>MaLDD [PK], TenLDD</td></tr>
+    <tr><td>n₁₈</td><td>Khách sạn</td><td>MaKS [PK], TenKS, DiaChi</td></tr>
+    <tr><td>n₁₉</td><td>LoTrinh_DiaDiem</td><td>MaLT [PK,FK], MaDD [PK,FK]</td></tr>
+    <tr><td>n₂₀</td><td>LoTrinh_KhachSan</td><td>MaLT [PK,FK], MaKS [PK,FK]</td></tr>
+  </table>
+
+  <h2>5. DOT‐graph (Graphviz)</h2>
+  <pre>
+digraph DoThiTruyXuatTour {
+    rankdir=LR;
+    node [shape=box, style=filled, fontname="Arial"];
+
+    subgraph cluster_nguoidung {
+      label="(1) Nhóm người dùng và phân quyền";
+      style=filled; fillcolor=lightyellow;
+      n1 [label="n₁: TaiKhoan\n(TenDangNhap, MatKhau, VaiTro, MaKH, MaNV)"];
+      n2 [label="n₂: KhachHang\n(MaKH, HoTen, Email)"];
+      n3 [label="n₃: NhanVien\n(MaNV, HoTen, ChucVu)"];
+    }
+
+    subgraph cluster_nghiepvu {
+      label="(2) Nhóm nghiệp vụ tour";
+      style=filled; fillcolor=lightblue;
+      n4 [label="n₄: Tour\n(MaTour, TenTour, MoTa)"];
+      n5 [label="n₅: LichKhoiHanh\n(MaLich, MaTour, NgayBatDau, NgayKetThuc, SoCho)"];
+      n6 [label="n₆: LoTrinh\n(MaLT, MaLich, ThuTuLT, NgayThamQuan)"];
+      n7 [label="n₇: KhuyenMai\n(MaKM, ThongTinKM, SoTienKM)"];
+      n8 [label="n₈: HopDong\n(MaHD, MaKH, MaNV, MaKM, MaLich, NgayDat, TongTien)"];
+    }
+
+    subgraph cluster_hotro {
+      label="(3) Nhóm dịch vụ hỗ trợ tour";
+      style=filled; fillcolor=mistyrose;
+      n9  [label="n₉: HuongDanVien\n(MaHDV, HoTen, SDT, Email, TrinhDo)"];
+      n10 [label="n₁₀: LKH_HuongDanVien\n(MaLich, MaHDV)"];
+      n11 [label="n₁₁: PhuongTien\n(MaPT, LoaiPT, BienSo)"];
+      n12 [label="n₁₂: LKH_PhuongTien\n(MaPT, MaLich)"];
+      n13 [label="n₁₃: ThanhToan\n(MaTT, MaKH, MaHD, SoTien, NgayTT, PhuongThuc)"];
+      n14 [label="n₁₄: YeuCauHoTro\n(MaHT, MaKH, MaNV, NoiDung, NgayGui)"];
+      n15 [label="n₁₅: DanhGia\n(MaDG, MaKH, MaLich, NoiDung, NgayDG)"];
+    }
+
+    subgraph cluster_diadiem {
+      label="(4) Nhóm địa điểm và lưu trú";
+      style=filled; fillcolor=lightgreen;
+      n16 [label="n₁₆: DiaDiem\n(MaDD, TenDD, DiaChi, MoTa, MaLDD)"];
+      n17 [label="n₁₇: LoaiDiaDiem\n(MaLDD, TenLDD)"];
+      n18 [label="n₁₈: KhachSan\n(MaKS, TenKS, DiaChi)"];
+      n19 [label="n₁₉: LT_DiaDiem\n(MaLT, MaDD)"];
+      n20 [label="n₂₀: LT_KhachSan\n(MaLT, MaKS)"];
+    }
+
+    // Quan hệ
+    n1 -> n2 [label="MaKH"];
+    n1 -> n3 [label="MaNV"];
+
+    n2 -> n8 [label="MaKH"];
+    n3 -> n8 [label="MaNV"];
+    n8 -> n7 [label="MaKM"];
+    n8 -> n5 [label="MaLich"];
+    n8 -> n13[label="MaHD"];
+    n2 -> n13[label="MaKH"];
+
+    n5 -> n4 [label="MaTour"];
+    n5 -> n6 [label="MaLich"];
+    n5 -> n10;
+    n10-> n9;
+    n5 -> n12;
+    n12-> n11;
+
+    n2  -> n14[label="MaKH"];
+    n3  -> n14[label="MaNV"];
+    n2  -> n15[label="MaKH"];
+    n15 -> n5 [label="MaLich"];
+
+    n6  -> n19;
+    n19 -> n16;
+    n16 -> n17;
+
+    n6  -> n20;
+    n20 -> n18;
+}
+  </pre>
+
+</body>
+</html>
